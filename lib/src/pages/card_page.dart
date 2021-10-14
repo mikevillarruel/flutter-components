@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CardPage extends StatelessWidget {
   const CardPage({Key? key}) : super(key: key);
@@ -13,6 +14,8 @@ class CardPage extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         children: <Widget>[
           _cardType1(),
+          const SizedBox(height: 30.0),
+          _cardType2(),
         ],
       ),
     );
@@ -39,6 +42,27 @@ class CardPage extends StatelessWidget {
                 onPressed: () {},
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _cardType2() {
+    return Card(
+      child: Column(
+        children: [
+          const FadeInImage(
+            image: NetworkImage(
+                'https://photographylife.com/wp-content/uploads/2020/03/Dan-Ballard-Landscapes-6.jpg'),
+            placeholder: AssetImage('assets/jar-loading.gif'),
+            fadeInDuration: Duration(milliseconds: 200),
+            height: 300.0,
+            fit: BoxFit.cover,
+          ),
+          Container(
+            padding: const EdgeInsets.all(10.0),
+            child: const Text('Overview'),
           ),
         ],
       ),
