@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class CardPage extends StatelessWidget {
   const CardPage({Key? key}) : super(key: key);
@@ -16,6 +15,19 @@ class CardPage extends StatelessWidget {
           _cardType1(),
           const SizedBox(height: 30.0),
           _cardType2(),
+          const SizedBox(height: 30.0),
+          _cardType1(),
+          const SizedBox(height: 30.0),
+          _cardType2(),
+          const SizedBox(height: 30.0),
+          _cardType1(),
+          const SizedBox(height: 30.0),
+          _cardType2(),
+          const SizedBox(height: 30.0),
+          _cardType1(),
+          const SizedBox(height: 30.0),
+          _cardType2(),
+          const SizedBox(height: 30.0),
         ],
       ),
     );
@@ -23,6 +35,8 @@ class CardPage extends StatelessWidget {
 
   Widget _cardType1() {
     return Card(
+      elevation: 10.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: Column(
         children: <Widget>[
           const ListTile(
@@ -50,6 +64,9 @@ class CardPage extends StatelessWidget {
 
   Widget _cardType2() {
     return Card(
+      clipBehavior: Clip.antiAlias,
+      elevation: 10.0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: Column(
         children: [
           const FadeInImage(
