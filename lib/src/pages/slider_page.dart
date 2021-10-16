@@ -8,7 +8,8 @@ class SliderPage extends StatefulWidget {
 }
 
 class _SliderPageState extends State<SliderPage> {
-  double _sliderValue = 100.0;
+  double _sliderValue = 200.0;
+  bool _lockCheck = false;
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +22,8 @@ class _SliderPageState extends State<SliderPage> {
         child: Column(
           children: <Widget>[
             _createSlider(),
+            _createCheckBox(),
+            _createSwitch(),
             Expanded(child: _createImage()),
           ],
         ),
@@ -36,11 +39,13 @@ class _SliderPageState extends State<SliderPage> {
       activeColor: Colors.indigoAccent,
       label: 'Image Size',
       // divisions: 10,
-      onChanged: (value) {
-        setState(() {
-          _sliderValue = value;
-        });
-      },
+      onChanged: (_lockCheck)
+          ? null
+          : (value) {
+              setState(() {
+                _sliderValue = value;
+              });
+            },
     );
   }
 
@@ -50,6 +55,43 @@ class _SliderPageState extends State<SliderPage> {
       fit: BoxFit.contain,
       image: const NetworkImage(
           'https://static.wikia.nocookie.net/paladins_gamepedia/images/f/f1/Maeve_Cammie.png/revision/latest/scale-to-width-down/1000?cb=20210626201940'),
+    );
+  }
+
+  Widget _createCheckBox() {
+    // return Checkbox(
+    //   value: _lockCheck,
+    //   onChanged: (value) {
+    //     setState(() {
+    //       if (value != null) {
+    //         _lockCheck = value;
+    //       }
+    //     });
+    //   },
+    // );
+
+    return CheckboxListTile(
+      title: const Text('Lock slider'),
+      value: _lockCheck,
+      onChanged: (value) {
+        setState(() {
+          if (value != null) {
+            _lockCheck = value;
+          }
+        });
+      },
+    );
+  }
+
+  Widget _createSwitch() {
+    return SwitchListTile(
+      title: const Text('Lock slider'),
+      value: _lockCheck,
+      onChanged: (value) {
+        setState(() {
+          _lockCheck = value;
+        });
+      },
     );
   }
 }
