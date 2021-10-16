@@ -12,6 +12,10 @@ class _InputPageState extends State<InputPage> {
   String _email = "";
   String _password = "";
   String _date = "";
+  String _selectedOption = "Flight";
+
+  List<String> _powers = ['Flight', 'Super Strength', 'Super Speed', 'Vision'];
+
   TextEditingController _inputFiedlDateController = TextEditingController();
 
   @override
@@ -30,6 +34,8 @@ class _InputPageState extends State<InputPage> {
           _createPassword(),
           const Divider(),
           _createDate(context),
+          const Divider(),
+          _createDropDown(),
           const Divider(),
           _createPerson(),
         ],
@@ -132,7 +138,7 @@ class _InputPageState extends State<InputPage> {
       initialDate: DateTime.now(),
       firstDate: DateTime(2018),
       lastDate: DateTime(2025),
-      locale: const Locale('es','ES'),
+      locale: const Locale('es', 'ES'),
     );
 
     if (picked != null) {
@@ -141,5 +147,36 @@ class _InputPageState extends State<InputPage> {
         _inputFiedlDateController.text = _date;
       });
     }
+  }
+
+  List<DropdownMenuItem<String>> getOptions() {
+    List<DropdownMenuItem<String>> list = [];
+    _powers.forEach((power) {
+      list.add(DropdownMenuItem(
+        child: Text(power),
+        value: power,
+      ));
+    });
+    return list;
+  }
+
+  Widget _createDropDown() {
+    return Row(
+      children: <Widget>[
+        const Icon(Icons.select_all),
+        const SizedBox(width: 30.0),
+        Expanded(
+          child: DropdownButton(
+            value: _selectedOption,
+            items: getOptions(),
+            onChanged: (opt) {
+              setState(() {
+                _selectedOption = opt.toString();
+              });
+            },
+          ),
+        )
+      ],
+    );
   }
 }
