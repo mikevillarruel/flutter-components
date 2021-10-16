@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -12,7 +14,8 @@ class ListPage extends StatefulWidget {
 class _ListPageState extends State<ListPage> {
   final List<int> _numberList = [];
   int _lastItem = 0;
-  ScrollController _scrollController = ScrollController();
+  bool _isLoading = false;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -21,9 +24,16 @@ class _ListPageState extends State<ListPage> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        _addTen();
+        // _addTen();
+        _fetchData();
       }
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -32,7 +42,10 @@ class _ListPageState extends State<ListPage> {
       appBar: AppBar(
         title: const Text('Lists'),
       ),
-      body: _createList(),
+      body: Stack(children: [
+        _createList(),
+        _createLoading(),
+      ]),
     );
   }
 
@@ -59,5 +72,41 @@ class _ListPageState extends State<ListPage> {
       _numberList.add(_lastItem);
     }
     setState(() {});
+  }
+
+  Future<Timer> _fetchData() async {
+    _isLoading = true;
+    setState(() {});
+
+    Duration duration = const Duration(seconds: 2);
+
+    return Timer(duration, responseHTTP);
+  }
+
+  void responseHTTP() {
+    _isLoading = false;
+    _scrollController.animateTo(_scrollController.position.pixels + 100,
+        curve: Curves.fastOutSlowIn,
+        duration: const Duration(milliseconds: 250));
+    _addTen();
+  }
+
+  Widget _createLoading() {
+    if (_isLoading) {
+      return Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const <Widget>[
+                CircularProgressIndicator(),
+              ],
+            ),
+            const SizedBox(height: 15.0),
+          ]);
+    } else {
+      return Container();
+    }
   }
 }
