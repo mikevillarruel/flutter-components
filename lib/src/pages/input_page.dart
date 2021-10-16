@@ -11,6 +11,8 @@ class _InputPageState extends State<InputPage> {
   String _name = "";
   String _email = "";
   String _password = "";
+  String _date = "";
+  TextEditingController _inputFiedlDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,8 @@ class _InputPageState extends State<InputPage> {
           _createEmail(),
           const Divider(),
           _createPassword(),
+          const Divider(),
+          _createDate(context),
           const Divider(),
           _createPerson(),
         ],
@@ -69,7 +73,6 @@ class _InputPageState extends State<InputPage> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),
-        counter: Text('Characters: ${_email.length}'),
         hintText: 'Your email',
         labelText: 'Email',
         suffixIcon: const Icon(Icons.alternate_email),
@@ -90,7 +93,6 @@ class _InputPageState extends State<InputPage> {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0),
         ),
-        counter: Text('Characters: ${_password.length}'),
         hintText: 'Your password',
         labelText: 'Password',
         suffixIcon: const Icon(Icons.lock_open),
@@ -102,5 +104,41 @@ class _InputPageState extends State<InputPage> {
         });
       },
     );
+  }
+
+  Widget _createDate(BuildContext context) {
+    return TextField(
+      controller: _inputFiedlDateController,
+      enableInteractiveSelection: false,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        hintText: 'Date of birth',
+        labelText: 'Date of birth',
+        suffixIcon: const Icon(Icons.perm_contact_calendar),
+        icon: const Icon(Icons.calendar_today),
+      ),
+      onTap: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+        _selectDate(context);
+      },
+    );
+  }
+
+  _selectDate(BuildContext context) async {
+    DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2018),
+      lastDate: DateTime(2025),
+    );
+
+    if (picked != null) {
+      setState(() {
+        _date = picked.toString();
+        _inputFiedlDateController.text = _date;
+      });
+    }
   }
 }
