@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
 
@@ -50,19 +51,22 @@ class _ListPageState extends State<ListPage> {
   }
 
   Widget _createList() {
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: _numberList.length,
-      itemBuilder: (BuildContext context, int index) {
-        final int image = _numberList[index];
-        return FadeInImage(
-          height: 300,
-          fit: BoxFit.cover,
-          fadeInDuration: const Duration(milliseconds: 200),
-          placeholder: const AssetImage('assets/jar-loading.gif'),
-          image: NetworkImage('https://picsum.photos/500/300?image=$image'),
-        );
-      },
+    return RefreshIndicator(
+      onRefresh: _getPage1,
+      child: ListView.builder(
+        controller: _scrollController,
+        itemCount: _numberList.length,
+        itemBuilder: (BuildContext context, int index) {
+          final int image = _numberList[index];
+          return FadeInImage(
+            height: 300,
+            fit: BoxFit.cover,
+            fadeInDuration: const Duration(milliseconds: 200),
+            placeholder: const AssetImage('assets/jar-loading.gif'),
+            image: NetworkImage('https://picsum.photos/500/300?image=$image'),
+          );
+        },
+      ),
     );
   }
 
@@ -108,5 +112,15 @@ class _ListPageState extends State<ListPage> {
     } else {
       return Container();
     }
+  }
+
+  Future<void> _getPage1() async {
+    Duration duration = const Duration(seconds: 2);
+    Timer(duration, () {
+      _numberList.clear();
+      _lastItem++;
+      _addTen();
+    });
+    return Future.delayed(duration);
   }
 }
