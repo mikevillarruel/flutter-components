@@ -12,7 +12,7 @@ Map<String, WidgetBuilder> getAplicationRoutes() {
   return <String, WidgetBuilder>{
     '/': (BuildContext context) => const HomePage(),
     'alert': (BuildContext context) => const AlertPage(),
-    'avatar': (BuildContext context) => const AvatarPage(),
+    AvatarPage.pageName : (BuildContext context) => const AvatarPage(),
     'card': (BuildContext context) => const CardPage(),
     'animatedContainer': (BuildContext context) => const AnimatedContainerPage(),
     'inputs': (BuildContext context) => const InputPage(),
